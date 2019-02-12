@@ -1,19 +1,20 @@
-from random import shuffle
 import sys, shutil, os
 import random
-from os import listdir
-from os.path import isfile, join
 import string
-def random_str(num):
-    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(num))
+from file_utils import getfiles, create_dir
+
+def random_str(N):
+    # generate random string of length N
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
 
 mypath = sys.argv[1]
 newpath = sys.argv[2]
-if not os.path.exists(newpath):
-    os.makedirs(newpath)
-onlyfiles = [os.path.join(mypath, f) for f in listdir(mypath) if isfile(join(mypath, f))]
 
-shuffle(onlyfiles)
+create_dir(mypath)
+jpegfiles = files_with_ext(mypath, '.jpg') # get all the files with extentsion
+
+# fo random shuffle of files
+random.shuffle(files)
 
 number = int(sys.argv[3])
 

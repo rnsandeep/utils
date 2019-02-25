@@ -1,7 +1,7 @@
 import sys, shutil, os
 import random
 import string
-from file_utils import getfiles, create_dir
+from file_utils import files_with_ext, create_dir
 
 def random_str(N):
     # generate random string of length N

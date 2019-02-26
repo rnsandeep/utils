@@ -10,18 +10,20 @@ def random_str(N):
 mypath = sys.argv[1]
 newpath = sys.argv[2]
 
-create_dir(mypath)
+create_dir(newpath)
+
 jpegfiles = files_with_ext(mypath, '.jpg') # get all the files with extentsion
 
 # fo random shuffle of files
-random.shuffle(files)
+random.shuffle(jpegfiles)
 
 number = int(sys.argv[3])
 
-if number < len(onlyfiles):
-    copyfiles = onlyfiles[:number]
+if number < len(jpegfiles):
+    copyfiles = jpegfiles[:number]
 else:
-    copyfiles = onlyfiles*(int(number/len(onlyfiles))+1)
+    copyfiles = jpegfiles*(int(number/len(jpegfiles))+1)
+
     print(len(copyfiles))
     copyfiles = copyfiles[:number]
 

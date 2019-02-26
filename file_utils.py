@@ -1,7 +1,7 @@
 import os, shutil
 
 def files_with_ext(mypath, ext):
-    files = [os.path.join(mypath, f) for f in os.listdir(mypath) if (os.path.isfile(os.path.join(mypath, f)) and os.path.splitext(os.path.join(mypath, f))[1] == ext)]
+    files = [os.path.join(mypath, f) for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f)) and os.path.splitext(os.path.join(mypath, f))[1] == ext]
     return files
 
 def cpy_files_dir(files, path):

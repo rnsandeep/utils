@@ -6,7 +6,8 @@ from random import shuffle
 
 xmls = files_with_ext(sys.argv[1],'.xml')
 
-print(xmls[0])
+#print(xmls[0])
+xmls = [xml.split('/')[-1].split('.xml')[0] for xml in xmls]
 shuffle(xmls)
 
 trainingFraction = 0.90

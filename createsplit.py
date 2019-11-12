@@ -8,6 +8,7 @@ xmls = files_with_ext(sys.argv[1],'.xml')
 
 #print(xmls[0])
 xmls = [xml.split('/')[-1].split('.xml')[0] for xml in xmls]
+xmls = [xml for xml in xmls if os.path.exists(os.path.join('/home/ubuntu/rnsandeep/maskrcnn-benchmark/datasets/voc/VOC2007/datapure/JPEGImages', xml+'.jpg'))]
 shuffle(xmls)
 
 trainingFraction = 0.90
@@ -24,7 +25,7 @@ train.extend(xmls[:trainLen])
 val.extend(xmls[trainLen:trainLen+valLen])
 test.extend(xmls[trainLen+valLen:])
 
-print 'Number of training images = %d, and vallidation images = %d and Testing images = %d '%(len(train),len(val), len(test))
+print('Number of training images = %d, and vallidation images = %d and Testing images = %d '%(len(train),len(val), len(test)))
 
 with open('train.txt', 'w') as f:
     for item in train:

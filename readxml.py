@@ -31,8 +31,6 @@ def read_xml(xml_path, new_path):
         ymax = obj.getElementsByTagName("ymax")[0].firstChild.data
        
         box = [xmin, ymin, xmax, ymax]
-        if random.uniform(0, 1) < 0.2:
-            continue
         if name not in labelledObjects:
             labelledObjects[name] = []
             labelledObjects[name].append(box)

@@ -19,14 +19,28 @@ def selectRandomCrop(w, h):
     return int(topLeftX), int(topLeftY), int(bottomRightX), int(bottomRightY)
 
 
+def divideImage(w, h, num):
+    Iwidth, Iheight = w, h
+    height = int(Iheight/num)
+    width = int(Iwidth/num)
+    coords = []
+    for i in range(0, Iheight, height):
+        for j in range(0, Iwidth, width):
+            box = (j, i, j+width, i+height)
+            coords.append([int(c) for c in box])
+    return coords    
+
+
+
+
 def cropImage(img, tx, ty, bx, by):
     crop = img[ty:by, tx:bx]
     return crop
 
 
-def cropXML(xml, w, h, tx, ty, bx, by):
+def cropXML(xml, w, h, tx, ty, bx, by, idx):
     labelledObjects = read_xml(xml)
-    term = "crop1"
+    term = "crop" +str(idx)+"_"
     file_name = term + os.path.basename(xml).split('.xml')[0] + '.jpg'
     ann = write_xml(file_name, labelledObjects, w, h, tx, ty, bx, by)
     return ann
@@ -35,18 +49,20 @@ def cropXML(xml, w, h, tx, ty, bx, by):
 def completeProcess(image):
     image = image.strip()
     I, w, h = readImage(image)
-    tx, ty, bx, by = selectRandomCrop(w, h)
-    cropImg = cropImage(I, tx, ty, bx, by)
-    xml = os.path.join(xmlPath, os.path.basename(image).split('.jpg')[0] + '.xml')
-    if not os.path.exists(xml):
-        return 
-    xmlCrop = cropXML(xml, w, h, tx, ty, bx, by)
-    saveXmlPath = os.path.join(saveXMLS, "crop1"+ os.path.basename(image).replace('.jpg', '.xml'))
-    saveImgPath = os.path.join(saveIMGS, "crop1"+ os.path.basename(image))
-    g = open(saveXmlPath, 'w')
-    g.write(xmlCrop)
-    g.close()  
-    cv2.imwrite(saveImgPath, cropImg)
+    four_coords = divideImage(w, h, 2)
+    for idx in range(4):
+        tx, ty, bx, by = four_coords[idx] #selectRandomCrop(w, h)
+        cropImg = cropImage(I, tx, ty, bx, by)
+        xml = os.path.join(xmlPath, os.path.basename(image).split('.jpg')[0] + '.xml')
+        if not os.path.exists(xml):
+            return 
+        xmlCrop = cropXML(xml, w, h, tx, ty, bx, by, idx)
+        saveXmlPath = os.path.join(saveXMLS, "crop" + str(idx)+ "_" + os.path.basename(image).replace('.jpg', '.xml'))
+        saveImgPath = os.path.join(saveIMGS, "crop"+ str(idx) + "_" +os.path.basename(image))
+        g = open(saveXmlPath, 'w')
+        g.write(xmlCrop)
+        g.close()  
+        cv2.imwrite(saveImgPath, cropImg)
 
 
 images = open(sys.argv[1], 'r').readlines()

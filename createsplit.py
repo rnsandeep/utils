@@ -6,9 +6,11 @@ from random import shuffle
 
 xmls = files_with_ext(sys.argv[1],'.xml')
 
+imagesPath = sys.argv[2]
 #print(xmls[0])
 xmls = [xml.split('/')[-1].split('.xml')[0] for xml in xmls]
-xmls = [xml for xml in xmls if os.path.exists(os.path.join('/home/ubuntu/rnsandeep/maskrcnn-benchmark/datasets/voc/VOC2007/datapure/JPEGImages', xml+'.jpg'))]
+
+xmls = [xml for xml in xmls if os.path.exists(os.path.join(imagesPath, xml+'.jpg'))]
 shuffle(xmls)
 
 trainingFraction = 0.90

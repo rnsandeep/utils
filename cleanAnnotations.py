@@ -55,7 +55,7 @@ def read_xml(xml_path, new_path):
             labelledObjects[name].append(box)
 
     if len(labelledObjects.keys())== 0:
-        return False, xml_path
+            return False,  xml_path
 
     newxml = write_xml(fname, labelledObjects, width, height)
     g = open(new_path,'w')

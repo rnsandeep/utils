@@ -9,6 +9,7 @@ import sys ,os
 from os import listdir
 from os.path import isfile, join
 import numpy as np
+from tqdm import tqdm
 
 def read_xml(xml_path):
     flag = True
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     images = [mypath+'/'+f for f in listdir(mypath) if isfile(join(mypath, f))] 
     count  = 0  
     counter = dict()
-    for image in images:
+    for image in tqdm(images):
        count  = read_xml(image)
        for key in count:
            if key not in counter:
